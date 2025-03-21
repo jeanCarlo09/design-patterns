@@ -31,9 +31,35 @@ function formatDate(date: Date): string {
 type LogLevel = "info" | "warn" | "error";
 
 function createLogger(level: LogLevel) {
-  // Retorna una función que recibe el "message" como argumento
-  // Completar: implementar el logger con formato y color para cada nivel
-  throw new Error("Not implemented");
+  return function (message: string) {
+    const timestamp = formatDate(new Date());
+
+    const logConfig = {
+      info: {
+        preffix: "INFO",
+        color: COLORS.blue,
+      },
+      warn: {
+        preffix: "WARNING",
+        color: COLORS.yellow,
+      },
+      error: {
+        preffix: "ERROR",
+        color: COLORS.red,
+      },
+    };
+
+    const messageConfig = logConfig[level];
+
+    if (!messageConfig) {
+      return console.log("Level not supported", COLORS.red);
+    }
+
+    console.log(
+      `%c[${messageConfig.preffix}:${timestamp}] ${message}`,
+      messageConfig.color
+    );
+  };
 }
 
 // Ejemplo de uso
